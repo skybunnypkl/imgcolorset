@@ -30,6 +30,24 @@ int main(int argc, char* argv[]){
 
     }
 
+    if (std::string(argv[1]) == "--rgb") {
+        cv::Mat bgr_img = cv::imread(argv[2]);
+    if (bgr_img.empty()) {
+        std::cerr << "Error Open image" << std::endl;
+        return -1;
+    }
+    cv::Mat rgb_img;
+    cv::cvtColor(bgr_img, rgb_img, cv::COLOR_BGR2RGB);  // BGR → RGB
+    std::filesystem::path input(argv[2]);
+    std::string outputrgb = "rgb_" + input.stem().string() + ".png";
+    bool sucess = cv::imwrite(outputrgb, rgb_img);
+    if (sucess) {
+        std::cout << "RGB Image Saved!" << std::endl;
+    } else {
+        std::cerr << "Failed to save RGB image" << std::endl;
+    }
+}
+
 
     return 0;
 }
