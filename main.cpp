@@ -46,7 +46,29 @@ int main(int argc, char* argv[]){
     } else {
         std::cerr << "Failed to save RGB image" << std::endl;
     }
-}
+    }
+
+    if (std::string(argv[1]) == "--gray"){
+        cv::Mat colorImg = cv::imread(argv[2]);
+        if (colorImg.empty()){
+            std::cerr << "Falied Load Image" << std::endl;
+            return -1;
+        }
+        cv::Mat grayImage;
+        cv:cvtColor(colorImg, grayImage, cv::COLOR_BGR2GRAY);
+        std::filesystem::path input(argv[2]);
+        std::string outputGray = "gray_" + input.stem().string() + ".png";
+
+        bool sucess = cv::imwrite(outputGray, grayImage);
+
+        if (sucess){
+            std::cout << "Image Gray Scale Saved!" << std::endl;
+        } else {
+            std::cerr << "Falied  to save Gray Image" << std::endl;
+        }
+
+
+    }
 
 
     return 0;
